@@ -2,6 +2,9 @@
 # Build a Docker image
 # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
+
+name: Docker-CI
+
 trigger:
 - master
 
@@ -9,7 +12,7 @@ resources:
 - repo: self
 
 variables:
-  tag: '$(Build.BuildId)'
+  tagImageDocker: '$(Build.BuildId)'
 
 stages:
 - stage: Build
@@ -24,6 +27,6 @@ stages:
       displayName: Build an image
       inputs:
         command: build
-        dockerfile: '$(Build.SourcesDirectory)/CustomerApi/CustomerApi/Dockerfile'
+        dockerfile: '**/Dockerfile'
         tags: |
-          $(tag)
+          $(tagImageDocker)
