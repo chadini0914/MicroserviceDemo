@@ -1,6 +1,6 @@
 # Docker
 # Build a Docker image
-# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dockers
 
 
 name: Docker-CI
@@ -30,3 +30,17 @@ stages:
         dockerfile: '**/Dockerfile'
         tags: |
           $(tagImageDocker)
+      
+
+    - task: Docker@2
+      displayName: Login to ACR
+      inputs:
+        command: login
+        containerRegistry: acr   #service conntection 
+    - task: Docker@2
+      displayName: BuildandPush
+      inputs:
+        command: buildAndPush
+        repository: 'buildimages' #commm
+        tags: |
+          "$(buildID)- dockerCI"
